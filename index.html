@@ -5,45 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <!--Link CSS-->>
-    <link rel="stylesheet/CSS" href="assets/css/style.css">
+    <!--Link CSS-->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!--Link to Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Grenze|MedievalSharp&display=swap" rel="stylesheet">
+
 
     <title>Document</title>
 
 </head>
 <body>
 
+    <!--GAME TITLE-->
     <div id = "game-title">
-        <h1> Game of Thrones : RPG</h1>
+        <h1 id="title"> Game of Thrones : RPG Game </h1>
     </div>
+    <hr>
+    <!---->
 
+
+<div class="container">
     <!--Where all the characeters are displayed before the user makes a choice-->
     <div class = "game character-set" id="full-set">
         <h2>Choose Your Character</h2>
     </div>
 
-    <!--The USER CHARACTER-->
-    <div class = "game character-set" id="user-character">
-        <h3>Your Character:</h3>
-    </div>
+    <div id ="fight-zone"
+        <!--The USER CHARACTER-->
+        <div class = "game character-set" id="user-character">
+            <h3>Your Character: <span id="user-choice"></span></h3>
+        </div>
 
-    <!--THe CURRENT ENEMY-->
-    <div class="game character-set" id="current-enemy">
-        <h3>Defender:</h3>
+        <!--THe CURRENT ENEMY-->
+        <div class="game character-set" id="current-enemy">
+            <h3>Defender: <span class = "enemy"></span></h3>
+        </div>
     </div>
 
     <!--The text that will appear while fighting-->
-    <div class="game" id="user-move"></div>
-    <div class="game" id="fighter-move"></div>
+    <div class="game" id="game-message"></div>
+
+        <!--FIGHT BUTTON-->
+        <button id="fight-button">Fight!</button>
 
     <!--The ENEMY LIST-->
     <div class="game character-set" id="enemy-characters">
-        <h3>Enemies Left:</h3>
+        <h3>Enemies Left: <span class="enemies-left"></span></h3>
     </div>
+</div>
     
 
-    <!--FIGHT BUTTON-->
-    <button>Fight!</button>
+
 
 
 
