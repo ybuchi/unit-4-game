@@ -116,13 +116,12 @@ for (var i = 0; i < charArray.length; i++) {
 
 //We have to delete the div and then recreate it somehwere
 function movePicture(fromDivID, toDivID) {
-    $(fromDivID).children().remove();
+    $(fromDivID).remove();
     for (var i = 0; i < charArray.length; i++){
         $(toDivID).append("<img />");
         $(toDivID + " img:last-child").attr("id", charArray[i].name);
         $(toDivID + " img:last-child").attr("src", charArray[i].picture);
         $(toDivID + " img:last-child").attr("width", 150);
-        $(toDivID + " img:last-child").addClass("img-thumbnail");
     }
 }
 
@@ -141,7 +140,6 @@ $(document).on("click", "img", function () {
             }
         }
         $("#enemyDiv").append(this); // appends the selected defender to the div 
-
         $("#enemyDiv").append("<br>" + defender.name);
         $("#enemyHealthDiv").append("HP: " + defender.healthPoints);
     
@@ -151,7 +149,7 @@ $(document).on("click", "img", function () {
             for (var i = 0; i < charArray.length; i++) {
                 if (charArray[i].name == (this).id) {
                     player = charArray[i]; // sets current player
-                    console.log(player);
+                    console.log("The player has chosen: " + player);
                     setStartingAttack(player);
                     charArray.splice(i, 1);
                     playerSelected = true;
@@ -161,7 +159,7 @@ $(document).on("click", "img", function () {
             /////Rep;ace this tomorrow!!!!!!!!!!!!!klj;lkja;lkja;ldkfj
             movePicture("#game", "#enemies-left");
             $("#playerDiv").append(this); // appends the selected player to the div
-            $("#playerDiv").append(player.name);
+            $("#playerDiv").append("<br>" + player.name);
             $("#playerHealthDiv").append("HP: " + player.healthPoints);
         }
     
