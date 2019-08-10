@@ -49,18 +49,20 @@ character.prototype.counterAttack = function (Obj) {
     Obj.healthPoints -= this.counterAttack;
 
     //Display message
-    $("#game-message").html("<br>" Obj.name + " did " + this.counterAttack + " damage to you.");
+    $("#game-message").html("<br>" + Obj.name + " did " + this.counterAttack + " damage to you.");
 
 }
 
 //Initialize characters that will get pushed into the character object
-function initiateCharacters(){
+function initiateCharacters() {
+    var arya = new character("Arya Stark", 100, 10, 20, "assets/images/Arya-Stark-PNG-Picture.png");
+    var john = new character("John Snow", 200, 20, 10, "assets/images/Jon-Snow-PNG-Transparent-File.png");
+    var danaerys = new character("Danaerys Targaryen", 225 , 5, 5, "assets/images/imgbin-daenerys-targaryen-cosplay-costume-cersei-lannister-dress-game-of-thrones-game-of-thrones-character-UMDYz5FqMBC5qWF5NkSiPkHgJ.jpg");
+    var nightKing = new character("The Night King", 150, 20, 5, "assets/images/40-405000_the-night-king-png-game-of-thrones-cutouts.png");
+    var jaime = new character("Jaime Lannister", 150, 15, 15, "assets/images/imgbin-jaime-lannister-game-of-thrones-daenerys-targaryen-cersei-lannister-eddard-stark-jaime-lannister-nUzgEfFZp9HCc2pX5Paymv04T.jpg");
 
-    var arya = ("Arya Stark", 100, 10, 20, "assets/images/Arya-Stark-PNG-Picture.png");
-    var john = ("John Snow", 200, 20, 10, "assets/images/Jon-Snow-PNG-Transparent-File.png");
-    var danaerys = ("Danaerys Targaryen", 225 , 5, 5, "assets/images/imgbin-daenerys-targaryen-cosplay-costume-cersei-lannister-dress-game-of-thrones-game-of-thrones-character-UMDYz5FqMBC5qWF5NkSiPkHgJ.jpg");
-    var nightKing = ("The Night King", 150, 20, 5, "assets/images/40-405000_the-night-king-png-game-of-thrones-cutouts.png");
-    var jaime = ("Jaime Lannister", 150, 15, 15, "assets/images/imgbin-jaime-lannister-game-of-thrones-daenerys-targaryen-cersei-lannister-eddard-stark-jaime-lannister-nUzgEfFZp9HCc2pX5Paymv04T.jpg");
+    charArray.push(arya, john, danaerys, nightKing, jaime);
+
 }
 
 //Save the original attack value
@@ -76,8 +78,138 @@ function isAlive(Obj) {
     return false;
 }
 
+// Checks if the player has won
+function isWinner() {
+    if (charArray.length == 0 && player.healthPoints > 0)
+        return true;
+    else return false;
+}
+
+//Create and display the character cards on-screen
+
+function characterCards(divID){
+    console.log("characterCards function fired " + divID)
+
+//Make sure to get rid of anythin already in the div
+//This will fetch the element by ID, grab its child, and remove it  
+$(divID).children().remove();
+for (var i = 0; i < charArray.length; i++) {
+    $(divID).append("<div />");
+    $(divID + " div:last-child").addClass("card");
+    $(divID + " div:last-child").append("<img />");
+    $(divID + " img:last-child").attr("id", charArray[i].name);
+    $(divID + " img:last-child").attr("class", "card-img-top");
+    $(divID + " img:last-child").attr("src", charArray[i].picture);
+    $(divID + " img:last-child").attr("width", 150);
+    $(divID + " img:last-child").addClass("img-thumbnail");
+    $(divID + " div:last-child").append(charArray[i].name + "<br>");
+    $(divID + " div:last-child").append("HP: " + charArray[i].healthPoints);
+    $(divID + " idv:last-child").append();
+
+}
+}
+//Move the character's location on the screen
+
+//We have to delete the div and then recreate it somehwere
+function movePicture(fromDivID, toDivID) {
+    $(fromDivID).children().remove();
+    for (var i = 0; i < charArray.length; i++){
+        $(toDivID).append("<img />");
+        $(toDivID + " img:last-child").attr("id", charArray[i].name);
+        $(toDivID + " img:last-child").attr("src", charArray[i].picture);
+        $(toDivID + " img:last-child").attr("width", 150);
+        $(toDivID + " img:last-child").addClass("img-thumbnail");
+    }
+}
 
 
+$(document).on("click", "img", function () {
+    // Stores the defender the user has clicked on in the defender variable and removes it from the charArray
+    if (playerSelected && !defenderSelected && (this.id != player.name)) {
+        for (var j = 0; j < charArray.length; j++) {
+            if (charArray[j].name == (this).id) {
+                defender = charArray[j]; // sets defender
+                charArray.splice(j, 1);
+                defenderSelected = true;
+                $("#msg").html("Click the button to attack!");
+            }
+        }
+        $("#defenderDiv").append(this); // appends the selected defender to the div 
+        $("#defenderDiv").addClass("animated zoomInRight");
+        $("#defenderDiv").append("<br>" + defender.name);
+        $("#defenderHealthDiv").append("HP: " + defender.healthPoints);
+        $("#defenderHealthDiv").addClass("animated zoomInRight");    
+    
+        }
+        // Stores the character the user has clicked on in the player variable and removes it from charArray
+        if (!playerSelected) {
+            for (var i = 0; i < charArray.length; i++) {
+                if (charArray[i].name == (this).id) {
+                    player = charArray[i]; // sets current player
+                    playAudio(); // starts theme song
+                    $("body").css({
+                        "background-image": "url('./assets/images/" + this.id[0] + ".jpg')"
+                    }); // changes the background picture according to the user selection
+                    setBaseAttack(player);
+                    charArray.splice(i, 1);
+                    playerSelected = true;
+                    changeView();
+                    $("#msg").html("Pick an enemy to fight!");
+                }
+            }
+            updatePics("#game", "#defendersLeftDiv");
+            $("#playerDiv").append(this); // appends the selected player to the div
+            $("#playerDiv").addClass("animated zoomIn");
+            $("#playerDiv").append(player.name);
+            $("#playerHealthDiv").append("HP: " + player.healthPoints);
+            $("#playerHealthDiv").addClass("animated zoomIn");
+        }
+    
+    });
+
+// The attack button functionality
+$(document).on("click", "#attackBtn", function () {
+    if (playerSelected && defenderSelected) {
+        if (isAlive(player) && isAlive(defender)) {
+            player.attack(defender);
+            defender.counterAttack(player);
+            $("#playerHealthDiv").html("HP: " + player.healthPoints);
+            $("#defenderHealthDiv").html("HP: " + defender.healthPoints);
+            if (!isAlive(defender)) {
+                $("#defenderHealthDiv").html("DEFETED!");
+                $("#playerHealthDiv").html("Enemy defeated!");
+                $("#msg").html("Pick another enemy to battle...");
+            }
+            if (!isAlive(player)) {
+                $("#playerHealthDiv").html("YOU LOST!");
+                $("#msg").html("Try again...");
+                $("#attackBtn").html("Restart Game");
+                $(document).on("click", "#attackBtn", function () { // restarts game
+                    location.reload();
+                });
+            }
+        }
+        if (!isAlive(defender)) {
+            $("#defenderDiv").removeClass("animated zoomInRight");
+            $("#defenderHealthDiv").removeClass("animated zoomInRight");
+            $("#defenderDiv").children().remove();
+            $("#defenderDiv").html("");
+            $("#defenderHealthDiv").html("");
+            defenderSelected = false;
+            if (isWinner()) {
+                $("#secondScreen").hide();
+                $("#globalMsg").show();
+            }
+        }
+    }
+});
+
+
+// EXECUTE
+$(document).ready(function () {
+    initiateCharacters();
+    characterCards("#gamecharArray");
+});
 
 
 
