@@ -57,7 +57,7 @@ character.prototype.counterAttack = function (Obj) {
 function initiateCharacters() {
     var arya = new character("Arya Stark", 100, 10, 20, "assets/images/Arya-Stark-PNG-Picture.png");
     var john = new character("John Snow", 200, 20, 10, "assets/images/Jon-Snow-PNG-Transparent-File.png");
-    var danaerys = new character("Danaerys Targaryen", 225 , 5, 5, "assets/images/imgbin-daenerys-targaryen-cosplay-costume-cersei-lannister-dress-game-of-thrones-game-of-thrones-character-UMDYz5FqMBC5qWF5NkSiPkHgJ.jpg");
+    var danaerys = new character("Danaerys Targaryen", 225 , 5, 5, "assets/images/danaerys.png");
     var nightKing = new character("The Night King", 150, 20, 5, "assets/images/40-405000_the-night-king-png-game-of-thrones-cutouts.png");
     var jaime = new character("Jaime Lannister", 150, 15, 15, "https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/j/a/jaimelannisterthreezeroactionfigure.1498557052.png");
 
@@ -104,9 +104,9 @@ for (var i = 0; i < charArray.length; i++) {
     //We set the image source
     $(divID + " img:last-child").attr("src", charArray[i].picture);
     //Set some image attributes
-    $(divID + " img:last-child").attr("height", 300);
+    $(divID + " img:last-child").attr("height", 150);
     //Set the text with character fighting information
-    $(divID + " div:last-child").append(charArray[i].name + "<br>");
+    $(divID + " div:last-child").append("<br>" + charArray[i].name + "<br>");
     $(divID + " div:last-child").append("HP: " + charArray[i].healthPoints);
     $(divID + " idv:last-child").append();
 
