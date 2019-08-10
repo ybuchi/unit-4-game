@@ -1,7 +1,4 @@
-.container {
-    margin: 0px 70px 0px;
-}
-
+/* This is the game title */
 #game-title{
     width: 100%;
     font-family: 'MedievalSharp', cursive;
@@ -10,13 +7,49 @@
     color: gold;
 }
 
+/* The container beneath the game title that contains the rest of the game elements */
+.container {
+    margin: 0px 70px 0px;
+}
+
+/* Class for all the elements in the container */
 .game{
     font-size: 20px;
     font-family: 'Grenze', serif;
 }
+
+/* The container containing all character cards before any have been chosen */
+#gamecharArray {
+    height: 600px;
+    text-align: center;
+}
+
+/* Card Character Styles */
+.card {
+    display: inline-block;
+    text-align: center; 
+    height: 500px;
+    width: 150px;
+    margin: 0px 5px 0px;
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+      }
+      
+      /* On mouse-over, add a deeper shadow */
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+      
+      /* Add some padding inside the card container */
+      .container {
+        padding: 2px 16px;
+      }
+
+
 /*The divs with cards are going to have a specified height*/
 .character-set{
-    height:250px;
+    height:300px;
 }
 
 #fight-zone {
@@ -47,22 +80,6 @@
     text-align: center
 }
 
-.card {
-    display: inline-block;
-    .card {
-        /* Add shadows to create the "card" effect */
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-      }
-      
-      /* On mouse-over, add a deeper shadow */
-      .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-      }
-      
-      /* Add some padding inside the card container */
-      .container {
-        padding: 2px 16px;
-        
-      }
+
+
 

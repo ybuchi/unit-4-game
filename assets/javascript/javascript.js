@@ -59,7 +59,7 @@ function initiateCharacters() {
     var john = new character("John Snow", 200, 20, 10, "assets/images/Jon-Snow-PNG-Transparent-File.png");
     var danaerys = new character("Danaerys Targaryen", 225 , 5, 5, "assets/images/imgbin-daenerys-targaryen-cosplay-costume-cersei-lannister-dress-game-of-thrones-game-of-thrones-character-UMDYz5FqMBC5qWF5NkSiPkHgJ.jpg");
     var nightKing = new character("The Night King", 150, 20, 5, "assets/images/40-405000_the-night-king-png-game-of-thrones-cutouts.png");
-    var jaime = new character("Jaime Lannister", 150, 15, 15, "assets/images/imgbin-jaime-lannister-game-of-thrones-daenerys-targaryen-cersei-lannister-eddard-stark-jaime-lannister-nUzgEfFZp9HCc2pX5Paymv04T.jpg");
+    var jaime = new character("Jaime Lannister", 150, 15, 15, "https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/j/a/jaimelannisterthreezeroactionfigure.1498557052.png");
 
     charArray.push(arya, john, danaerys, nightKing, jaime);
 
@@ -85,23 +85,27 @@ function isWinner() {
     else return false;
 }
 
-//Create and display the character cards on-screen
-
+//CREATE AND DISPLAY THE CHARACTER CARDS ON THE SCREEN
+//We can use the jQuery :last-child to fetch the last child element of its parent
 function characterCards(divID){
-    console.log("characterCards function fired " + divID)
 
-//Make sure to get rid of anythin already in the div
-//This will fetch the element by ID, grab its child, and remove it  
+    console.log("the characters have been added to " + divID)
+
 $(divID).children().remove();
 for (var i = 0; i < charArray.length; i++) {
+    //Create a div
     $(divID).append("<div />");
+    //Give it a class "card"
     $(divID + " div:last-child").addClass("card");
+    //Inside this div, we create an image tag
     $(divID + " div:last-child").append("<img />");
+    //We give this tag an ID
     $(divID + " img:last-child").attr("id", charArray[i].name);
-    $(divID + " img:last-child").attr("class", "card-img-top");
+    //We set the image source
     $(divID + " img:last-child").attr("src", charArray[i].picture);
-    $(divID + " img:last-child").attr("width", 150);
-    $(divID + " img:last-child").addClass("img-thumbnail");
+    //Set some image attributes
+    $(divID + " img:last-child").attr("height", 300);
+    //Set the text with character fighting information
     $(divID + " div:last-child").append(charArray[i].name + "<br>");
     $(divID + " div:last-child").append("HP: " + charArray[i].healthPoints);
     $(divID + " idv:last-child").append();
@@ -125,20 +129,21 @@ function movePicture(fromDivID, toDivID) {
 
 $(document).on("click", "img", function () {
     // Stores the defender the user has clicked on in the defender variable and removes it from the charArray
-    if (playerSelected && !defenderSelected && (this.id != player.name)) {
+    //Here, this referes to the img
+    if (playerSelected && !enemySelected && (this.id != player.name)) {
         for (var j = 0; j < charArray.length; j++) {
             if (charArray[j].name == (this).id) {
                 defender = charArray[j]; // sets defender
+                console.log(defender);
                 charArray.splice(j, 1);
-                defenderSelected = true;
+                enemySelected = true;
                 $("#msg").html("Click the button to attack!");
             }
         }
-        $("#defenderDiv").append(this); // appends the selected defender to the div 
-        $("#defenderDiv").addClass("animated zoomInRight");
-        $("#defenderDiv").append("<br>" + defender.name);
-        $("#defenderHealthDiv").append("HP: " + defender.healthPoints);
-        $("#defenderHealthDiv").addClass("animated zoomInRight");    
+        $("#enemyDiv").append(this); // appends the selected defender to the div 
+
+        $("#enemyDiv").append("<br>" + defender.name);
+        $("#enemyHealthDiv").append("HP: " + defender.healthPoints);
     
         }
         // Stores the character the user has clicked on in the player variable and removes it from charArray
@@ -146,34 +151,29 @@ $(document).on("click", "img", function () {
             for (var i = 0; i < charArray.length; i++) {
                 if (charArray[i].name == (this).id) {
                     player = charArray[i]; // sets current player
-                    playAudio(); // starts theme song
-                    $("body").css({
-                        "background-image": "url('./assets/images/" + this.id[0] + ".jpg')"
-                    }); // changes the background picture according to the user selection
-                    setBaseAttack(player);
+                    console.log(player);
+                    setStartingAttack(player);
                     charArray.splice(i, 1);
                     playerSelected = true;
-                    changeView();
                     $("#msg").html("Pick an enemy to fight!");
                 }
             }
-            updatePics("#game", "#defendersLeftDiv");
+            /////Rep;ace this tomorrow!!!!!!!!!!!!!klj;lkja;lkja;ldkfj
+            movePicture("#game", "#enemies-left");
             $("#playerDiv").append(this); // appends the selected player to the div
-            $("#playerDiv").addClass("animated zoomIn");
             $("#playerDiv").append(player.name);
             $("#playerHealthDiv").append("HP: " + player.healthPoints);
-            $("#playerHealthDiv").addClass("animated zoomIn");
         }
     
     });
 
 // The attack button functionality
 $(document).on("click", "#attackBtn", function () {
-    if (playerSelected && defenderSelected) {
+    if (playerSelected && enemySelected) {
         if (isAlive(player) && isAlive(defender)) {
             player.attack(defender);
             defender.counterAttack(player);
-            $("#playerHealthDiv").html("HP: " + player.healthPoints);
+            $("#playerHealthDiv").html("HP: " + player.healthPoints); 
             $("#defenderHealthDiv").html("HP: " + defender.healthPoints);
             if (!isAlive(defender)) {
                 $("#defenderHealthDiv").html("DEFETED!");
@@ -195,7 +195,7 @@ $(document).on("click", "#attackBtn", function () {
             $("#defenderDiv").children().remove();
             $("#defenderDiv").html("");
             $("#defenderHealthDiv").html("");
-            defenderSelected = false;
+            enemySelected = false;
             if (isWinner()) {
                 $("#secondScreen").hide();
                 $("#globalMsg").show();

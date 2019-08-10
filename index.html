@@ -33,8 +33,11 @@
 
     <div id ="fight-zone">
         <!--The USER CHARACTER-->
-        <div class = "game character-set" id="user-character">
-            <h3>Your Character: <span id="user-choice"></span></h3>
+        <div class = "game character-set" id="player-div">
+            <div id = "enemyDiv">
+                <h3>Your Character:</h3>
+            </div>
+            <div id = "enemyHealthDiv">
         </div>
 
         <!--THe CURRENT ENEMY-->
@@ -44,7 +47,7 @@
     </div>
 
     <!--The text that will appear while fighting-->
-    <div class="game" id="game-message"></div>
+    <div class="game" id="msg"></div>
 
         <!--FIGHT BUTTON-->
         <button id="fight-button">Fight!</button>
