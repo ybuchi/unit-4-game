@@ -19,21 +19,22 @@ var enemySelected = false;
 //CREATE GLOBAL FUNCTIONS
 
 //Builds the characters using a Constructor Function
-function character(name, hp, ap, cap, picture){
+function Character(name, hp, ap, cap, picture){
     this.name = name;
     this.healthPoints = hp;
     this.attackPower = ap;
-    this.counterAttack = cap;
+    this.counterAttackPower = cap;
     this.picture = picture;
 };
 
 //Increase the attack strength
-character.prototype.increaseAttack = function () {
+Character.prototype.increaseAttack = function () {
     this.attackPower += startingAttack;
+    console.log(this.attackPower)
 };
 
 //Attack function to be executed when the player presses the fight buttoin
-character.prototype.attack = function (Obj){
+Character.prototype.attack = function (Obj){
     Obj.healthPoints -= this.attackPower;
 
     //Display the message
@@ -44,31 +45,31 @@ character.prototype.attack = function (Obj){
 
 };
 
-//The enemy's counter-attack
-character.prototype.counterAttack = function (Obj) {
-    Obj.healthPoints -= this.counterAttack;
+//The enemy's COUNTER ATTACK
+Character.prototype.counterAttack = function (Obj) {
+    Obj.healthPoints -= this.counterAttackPower; //Replaced this with player
 
     //Display message
-    $("#game-message").html("<br>" + Obj.name + " did " + this.counterAttack + " damage to you.");
+    $("#game-message").html("<br>" + Obj.name + " did " + this.counterAttackPower + " damage to you.");
 
-}
+};
 
 //Initialize characters that will get pushed into the character object
 function initiateCharacters() {
-    var arya = new character("Arya Stark", 100, 10, 20, "assets/images/Arya-Stark-PNG-Picture.png");
-    var john = new character("John Snow", 200, 20, 10, "assets/images/Jon-Snow-PNG-Transparent-File.png");
-    var danaerys = new character("Danaerys Targaryen", 225 , 5, 5, "assets/images/danaerys.png");
-    var nightKing = new character("The Night King", 150, 20, 5, "assets/images/40-405000_the-night-king-png-game-of-thrones-cutouts.png");
-    var jaime = new character("Jaime Lannister", 150, 15, 15, "https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/j/a/jaimelannisterthreezeroactionfigure.1498557052.png");
+    var arya = new Character("Arya Stark", 100, 10, 20, "assets/images/Arya-Stark-PNG-Picture.png");
+    var john = new Character("John Snow", 200, 20, 10, "assets/images/Jon-Snow-PNG-Transparent-File.png");
+    var danaerys = new Character("Danaerys Targaryen", 225 , 5, 5, "assets/images/danaerys.png");
+    var nightKing = new Character("The Night King", 150, 20, 5, "assets/images/40-405000_the-night-king-png-game-of-thrones-cutouts.png");
+    var jaime = new Character("Jaime Lannister", 150, 15, 15, "https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/j/a/jaimelannisterthreezeroactionfigure.1498557052.png");
 
     charArray.push(arya, john, danaerys, nightKing, jaime);
 
-}
+};
 
 //Save the original attack value
 function setStartingAttack(Obj){ 
     startingAttack = Obj.attackPower;
-}
+};
 
 //Checks if the character is alive
 function isAlive(Obj) {
@@ -76,14 +77,14 @@ function isAlive(Obj) {
         return true;
     }
     return false;
-}
+};
 
 // Checks if the player has won
 function isWinner() {
     if (charArray.length == 0 && player.healthPoints > 0)
         return true;
     else return false;
-}
+};
 
 //CREATE AND DISPLAY THE CHARACTER CARDS ON THE SCREEN
 //We can use the jQuery :last-child to fetch the last child element of its parent
@@ -132,16 +133,16 @@ $(document).on("click", "img", function () {
     if (playerSelected && !enemySelected && (this.id != player.name)) {
         for (var j = 0; j < charArray.length; j++) {
             if (charArray[j].name == (this).id) {
-                defender = charArray[j]; // sets defender
-                console.log(defender);
+                enemy = charArray[j]; // sets defender
+                //Removes the character from the arry so it doesn't get used in further loops
                 charArray.splice(j, 1);
                 enemySelected = true;
                 $("#msg").html("Click the button to attack!");
             }
         }
         $("#enemyDiv").append(this); // appends the selected defender to the div 
-        $("#enemyDiv").append("<br>" + defender.name);
-        $("#enemyHealthDiv").append("HP: " + defender.healthPoints);
+        $("#enemyDiv").append("<br>" + enemy.name);
+        $("#enemyHealthDiv").append("HP: " + enemy.healthPoints);
     
         }
         // Stores the character the user has clicked on in the player variable and removes it from charArray
@@ -156,7 +157,6 @@ $(document).on("click", "img", function () {
                     $("#msg").html("Pick an enemy to fight!");
                 }
             }
-            /////Rep;ace this tomorrow!!!!!!!!!!!!!klj;lkja;lkja;ldkfj
             movePicture("#game", "#enemies-left");
             $("#playerDiv").append(this); // appends the selected player to the div
             $("#playerDiv").append("<br>" + player.name);
@@ -166,15 +166,22 @@ $(document).on("click", "img", function () {
     });
 
 // The attack button functionality
-$(document).on("click", "#attackBtn", function () {
+$(document).on("click", "#fight-button", function () {
     if (playerSelected && enemySelected) {
-        if (isAlive(player) && isAlive(defender)) {
-            player.attack(defender);
-            defender.counterAttack(player);
+        console.debug
+
+        //If Both the player AND the enemy are alive
+        //Player attacks enemy
+            player.attack(enemy);
+        //Enemy attacks player
+            enemy.counterAttack(player);
+        //Update the player HealthDiv
             $("#playerHealthDiv").html("HP: " + player.healthPoints); 
-            $("#defenderHealthDiv").html("HP: " + defender.healthPoints);
-            if (!isAlive(defender)) {
-                $("#defenderHealthDiv").html("DEFETED!");
+            $("#enemyHealthDiv").html("HP: " + enemy.healthPoints);
+
+            //Checks if both parties are alive, display message
+            if (!isAlive(enemy)) {
+                $("#enemyHealthDiv").html("DEFETED!");
                 $("#playerHealthDiv").html("Enemy defeated!");
                 $("#msg").html("Pick another enemy to battle...");
             }
@@ -187,20 +194,18 @@ $(document).on("click", "#attackBtn", function () {
                 });
             }
         }
-        if (!isAlive(defender)) {
-            $("#defenderDiv").removeClass("animated zoomInRight");
-            $("#defenderHealthDiv").removeClass("animated zoomInRight");
-            $("#defenderDiv").children().remove();
-            $("#defenderDiv").html("");
-            $("#defenderHealthDiv").html("");
+        if (!isAlive(enemy)) {
+            $("#enemyDiv").children().remove();
+            $("#enemyDiv").html("");
+            $("#enemyHealthDiv").html("");
             enemySelected = false;
             if (isWinner()) {
-                $("#secondScreen").hide();
-                $("#globalMsg").show();
+                $("#msg").html("THE ENEMY WON... DUN DUN DUN...");
+
             }
         }
     }
-});
+);
 
 
 // EXECUTE

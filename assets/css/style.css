@@ -47,15 +47,21 @@
         padding: 2px 16px;
       }
 
-/* Individual Character Card Customizations */
-.Arya StarkDiv{
-    background: red;
-
-}
 
 /*The divs with cards are going to have a specified height*/
 .character-set{
     height:400px;
+    display: inline-block;
+}
+.inactive-characters{
+    height: 400px;
+}
+
+#playerHealthDiv {
+    text-align: center;
+}
+#enemyHealthDiv{
+    text-align: center;
 }
 
 #fight-zone {
