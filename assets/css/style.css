@@ -51,10 +51,19 @@
 /*The divs with cards are going to have a specified height*/
 .character-set{
     height:400px;
+    text-align: center;
+}
+.active-character{
     display: inline-block;
+
 }
 .inactive-characters{
     height: 400px;
+}
+#versus {
+    font-size: 50px;
+    display: inline-block;
+
 }
 
 #playerHealthDiv {
@@ -89,7 +98,8 @@
 }
 #fight-button {
     height: 30px;
-    text-align: center
+    text-align: center;
+    display: inline-block;
 }
 
 

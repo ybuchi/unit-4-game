@@ -33,32 +33,29 @@
 
     <div id ="fight-zone">
         <!--The USER CHARACTER-->
-        <div class = "game character-set" id="player-div">
+        <div class = "game active-character" id="player-div">
             You are: <br>
             <div class = "card" id = "playerDiv"></div>
             <div id="playerHealthDiv"></div>
         </div>
+        <div class = "game active character" id="versus">VS</div>
 
         <!--THe CURRENT ENEMY-->
-        <div class="game character-set" id="enemy-div">
+        <div class="game active-character" id="enemy-div">
             Your current enemy is: <br>
             <div class="card" id="enemyDiv"></div>
             <div id="enemyHealthDiv"></div>
         </div>
+        <div class="game active-character" id="live">
+            <!-- The text that will appear while the fight is going on  -->
+            <div class="game" id="msg"></div>
+            <!--FIGHT BUTTON-->
+            <button id="fight-button">Fight!</button>
+        </div>
 
     </div>
 
-    <!--The text that will appear while fighting-->
-    <div class="game" id="msg"></div>
 
-        <!--FIGHT BUTTON-->
-        <button id="fight-button">Fight!</button>
-
-    <!--The ENEMY LIST-->
-    <div class="inactive-characters" id="enemy-characters">
-        <h3>Enemies Left: <span class="enemies-left"></span></h3>
-    </div>
-</div>
     
 
 

@@ -165,8 +165,9 @@ $(document).on("click", "img", function () {
     
     });
 
-// The attack button functionality
+// When the player clicks on the fight button, the fight begins!
 $(document).on("click", "#fight-button", function () {
+    //If both the player and the enemy are selected
     if (playerSelected && enemySelected) {
         console.debug
 
@@ -194,6 +195,7 @@ $(document).on("click", "#fight-button", function () {
                 });
             }
         }
+        //If the enemy is dead
         if (!isAlive(enemy)) {
             $("#enemyDiv").children().remove();
             $("#enemyDiv").html("");
